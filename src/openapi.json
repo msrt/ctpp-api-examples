@@ -178,7 +178,7 @@
             }
           }
         },
-        "description": "Get the metadata of a selected dataset of a year"
+        "description": "Get a dataset"
       }
     },
     "/datasets/{year}/groups": {
@@ -295,7 +295,7 @@
             }
           }
         },
-        "description": "Get the metadata of the groups of a selected dataset of a year"
+        "description": "Get the groups in a dataset"
       }
     },
     "/datasets/{year}/groups/{id}": {
@@ -364,7 +364,7 @@
     },
     "/groups": {
       "get": {
-        "summary": "List the metadata of the groups",
+        "summary": "List groups in a dataset",
         "operationId": "list-groups",
         "tags": ["groups"],
         "parameters": [
@@ -481,7 +481,7 @@
     },
     "/groups/{id}": {
       "get": {
-        "summary": "Get metadata of dataset by ID/groupname",
+        "summary": "Get metadata of group",
         "operationId": "find-group-by-id",
         "tags": ["groups"],
         "parameters": [
@@ -656,7 +656,7 @@
             }
           }
         },
-        "description": "Get the metadata of variables of a group selected by group ID."
+        "description": "Get the variables of a group selected by group ID."
       }
     },
     "/groups/{id}/geographies": {
@@ -885,7 +885,7 @@
             }
           }
         },
-        "description": "Get the metadata of a group geography levels by group ID and year."
+        "description": "Get summary levels supported in a group"
       }
     },
     "/data/{year}": {
@@ -904,10 +904,10 @@
             },
             "examples": {
               "ex1": {
-                "value": "get=a101101_e1,a101101_e2"
+                "value": "a101101_e1,a101101_e2"
               },
               "ex2": {
-                "value": "get=group(a101101)"
+                "value": "group(a101101)"
               }
             }
           },
@@ -921,10 +921,10 @@
             },
             "examples": {
               "ex1": {
-                "value": "for=state:*"
+                "value": "state:*"
               },
               "ex2": {
-                "value": "for=state:06"
+                "value": "state:06"
               }
             }
           },
@@ -938,10 +938,10 @@
             },
             "examples": {
               "ex1": {
-                "value": "for=county:*&in=state:*"
+                "value": "state:*"
               },
               "ex2": {
-                "value": "for=county:*&in=state:01"
+                "value": "state:01"
               }
             }
           },
@@ -955,7 +955,7 @@
             },
             "examples": {
               "ex1": {
-                "value": "bbox=-75.657349,40.279526,-80.897827,36.650793"
+                "value": "-75.657349,40.279526,-80.897827,36.650793"
               }
             }
           },
@@ -968,7 +968,7 @@
             "description": "The response format. Available format options are: array, list and geojson. List is the default option when format is not present in the request.",
             "examples": {
               "ex1": {
-                "value": "format=array"
+                "value": "array"
               }
             }
           },
@@ -1273,7 +1273,7 @@
             }
           }
         },
-        "description": "Get data by table name of a year at different summary levels.\n\n#Examples:  \n##Get specific columns data at state level:  \ndata/2016?get=a101101_e1,a101101_e2&for=state:*&size=10&page=1  \nThe state parameter is to select the states.  \nSpecify state parameter with two digits number: state:06,07\n\n\n##Get all columns at State-County level:  \ndata/2016?get=group(a101101)&for=county:*&in=state:06&size=5&page=1  \nThe county parameter is to select the counties in selected state.  \nSpecify county parameter with three digits number: county:005,006\n\n\n##Select specific columns at State-Place level:  \ndata/2016?get=a101101_e1,a101101_e2&for=place:*&in=state:*&size=5&page=1\nThe place parameter is to select the places in selected state.  \nSpecify palce parameter with five digits number: county:00100,00124\n\n##Filter to get spatial data with bounding box:  \ndata/2016?format=array&for=county:*&get=A101110_e1,INTPTLON&A101110_e1=24015:25000  \n&bbox=-75.657349,40.279526,-80.897827,36.650793&size=5&page=1"
+        "description": "Get data by table name of a year at different summary levels.\n\n## Examples:  \n### 1. Get specific columns data at state level:  \n\n<em>/data/2016?get=a101101_e1,a101101_e2&for=state:*&size=10&page=1</em>  \nThe <b>state</b> parameter is to select the states.  \nSpecify <b>state</b> parameter with two digits number: *<b>state:06,07</b>*\n\n\n\n### 2. Get all columns at State-County level:  \n\n\n<em>/data/2016?get=group(a101101)&for=county:*&in=state:06&size=5&page=1</em>  \nThe <b>county</b> parameter is to select the counties in selected state.  \nSpecify <b>county</b> parameter with three digits number: <em><b>county:005,006</b></em>\n\n### 3. Select specific columns at State-Place level:  \n\n<em>/data/2016?get=a101101_e1,a101101_e2&for=place:*&in=state:*&size=5&page=1</em>  \nThe <b>place</b> parameter is to select the places in selected state.  \nSpecify <b>place</b> parameter with five digits number: <em><b>county:00100,00124</b></em>\n\n### 4. Filter to get spatial data with bounding box: \n\n<em>/data/2016?format=array&for=county:*&get=A101110_e1,INTPTLON&A101110_e1=24015:25000  \n&bbox=-75.657349,40.279526,-80.897827,36.650793&size=5&page=1</em>  \nThe <b>bbox</b> parameter is to specify the value of the Bounding Box.  \nSpecify <b>bbox</b> parameter with Longitude and Latitude values: <em><b>bbox=-75.657349,40.279526,-80.897827,36.650793</b></em>"
       },
       "parameters": [
         {
@@ -1300,21 +1300,7 @@
           "label": {
             "type": "string"
           },
-          "concept": {
-            "type": "string"
-          },
-          "predicateType": {
-            "type": "string",
-            "enum": ["fips-for", "fips-in", "ucgid", "int", "float", "string"]
-          },
           "group": {
-            "type": "string"
-          },
-          "limit": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "attributes": {
             "type": "string"
           }
         }
