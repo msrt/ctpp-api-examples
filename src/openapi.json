@@ -42,7 +42,9 @@
       "get": {
         "summary": "List datasets",
         "operationId": "list-datasets",
-        "tags": ["datasets"],
+        "tags": [
+          "datasets"
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/size"
@@ -131,7 +133,9 @@
       "get": {
         "summary": "Get a dataset",
         "operationId": "get-dataset-by-id",
-        "tags": ["datasets"],
+        "tags": [
+          "datasets"
+        ],
         "parameters": [
           {
             "name": "year",
@@ -178,14 +182,16 @@
             }
           }
         },
-        "description": "Get a dataset"
+        "description": "Get the metadata of a selected dataset of a year"
       }
     },
     "/datasets/{year}/groups": {
       "get": {
         "summary": "List groups in a dataset",
         "operationId": "list-groups-of-a-dataset",
-        "tags": ["datasets"],
+        "tags": [
+          "datasets"
+        ],
         "parameters": [
           {
             "name": "year",
@@ -295,14 +301,16 @@
             }
           }
         },
-        "description": "Get the groups in a dataset"
+        "description": "Get the metadata of the groups of a selected dataset of a year"
       }
     },
     "/datasets/{year}/groups/{id}": {
       "get": {
         "summary": "Get metadata of group",
         "operationId": "find-group-metadata",
-        "tags": ["datasets"],
+        "tags": [
+          "datasets"
+        ],
         "parameters": [
           {
             "name": "year",
@@ -364,9 +372,11 @@
     },
     "/groups": {
       "get": {
-        "summary": "List groups in a dataset",
+        "summary": "List the metadata of the groups",
         "operationId": "list-groups",
-        "tags": ["groups"],
+        "tags": [
+          "groups"
+        ],
         "parameters": [
           {
             "name": "year",
@@ -481,9 +491,11 @@
     },
     "/groups/{id}": {
       "get": {
-        "summary": "Get metadata of group",
+        "summary": "Get metadata of dataset by ID/groupname",
         "operationId": "find-group-by-id",
-        "tags": ["groups"],
+        "tags": [
+          "groups"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -546,7 +558,9 @@
       "get": {
         "summary": "List variables of a group",
         "operationId": "variablesOfGroup",
-        "tags": ["groups"],
+        "tags": [
+          "groups"
+        ],
         "parameters": [
           {
             "name": "year",
@@ -656,14 +670,16 @@
             }
           }
         },
-        "description": "Get the variables of a group selected by group ID."
+        "description": "Get the metadata of variables of a group selected by group ID."
       }
     },
     "/groups/{id}/geographies": {
       "get": {
         "summary": "List summary levels of a group",
         "operationId": "list-summary-levels",
-        "tags": ["groups"],
+        "tags": [
+          "groups"
+        ],
         "parameters": [
           {
             "name": "year",
@@ -885,77 +901,77 @@
             }
           }
         },
-        "description": "Get summary levels supported in a group"
+        "description": "Get the metadata of a group geography levels by group ID and year."
       }
     },
     "/data/{year}": {
       "get": {
         "summary": "Get data by table name with summary level",
         "operationId": "getData",
-        "tags": ["data"],
+        "tags": [
+          "data"
+        ],
         "parameters": [
           {
             "name": "get",
             "in": "query",
-            "description": "The data elements to return.  \n  Syntax:  \n-Select two columns from table a101101. Their names are a101101_e1 and a101101_e2.  \n get=[TableColumnsName],[TableColumnsName]  \n-Select all columns from table a101101  \nget=group([TableName])",
+            "description": "Syntax: <br> \n1. Select two columns from table a101101. Their names are a101101_e1 and a101101_e2.  \n   get=[TableColumnsName],[TableColumnsName]  \n2. Select all columns from table a101101  \n   get=group([TableName])",
             "required": true,
             "schema": {
               "type": "string"
             },
             "examples": {
-              "ex1": {
-                "value": "a101101_e1,a101101_e2"
+              "Select two columns from table a101101": {
+                "value": "get=a101101_e1,a101101_e2"
               },
-              "ex2": {
-                "value": "group(a101101)"
+              "Select all columns from table a101101": {
+                "value": "get=group(a101101)"
+              },
+              "Ex-FLOWDATA": {
+                "value": "get=B303100_e6,B303100_e7"
               }
             }
           },
           {
-            "name": "for",
+            "name": "for, in",
             "in": "query",
-            "description": "Summary levels.  \n\n Syntax: for=[SummaryLevel]:[GeoFilter]",
+            "description": "\nSpecify summary level and geography filters. \n\n&for is required, and &in is optional.\n\n Syntax: <br>\n 1. &for=[SummaryLevel]:[GeoFilter] <br>\n 2. &for=[SummaryLevel]:[GeoFilter]&in=[SummaryLevel]:[GeoFilter]",
             "required": true,
             "schema": {
               "type": "string"
             },
             "examples": {
-              "ex1": {
-                "value": "state:*"
+              "Select data at all states": {
+                "value": "for=state:*"
               },
-              "ex2": {
-                "value": "state:06"
-              }
-            }
-          },
-          {
-            "name": "in",
-            "in": "query",
-            "description": "Help select summary levels.  \n \n Syntax: in=[SummaryLevel]:[GeoFilter]",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "examples": {
-              "ex1": {
-                "value": "state:*"
+              "Select data at selected states": {
+                "value": "for=state:06"
               },
-              "ex2": {
-                "value": "state:01"
+              "Select data at all counties of all states": {
+                "value": "for=county:*&in=state:*"
+              },
+              "Select data at all counties of selected states": {
+                "value": "for=county:*&in=state:01"
+              },
+              "Ex-FLOWDATA": {
+                "value": "for=state:51&d-for=state:11"
               }
             }
           },
           {
             "name": "bbox",
             "in": "query",
-            "description": "The latitude and longitude value of Bounding Box. Bounding box can be used to filter geographies in the query. Bounding box is defined by two sets of coordinates. They are the longitude and latitude of the lower left corner and upper right corner of the box.  \n \nSyntax: bbox=minLon,minLat,maxLon,maxLat",
+            "description": "Specify the longitude value and latitude value of the lower left corner and upper right corner of the box.  \n \nSyntax: bbox=minLon,minLat,maxLon,maxLat",
             "required": false,
             "schema": {
               "type": "string"
             },
             "examples": {
-              "ex1": {
-                "value": "-75.657349,40.279526,-80.897827,36.650793"
+              "Empty": {
+                "value": null
+              },
+              "Sample bounding box": {
+                "value": "bbox=-75.657349,40.279526,-80.897827,36.650793"
               }
             }
           },
@@ -965,10 +981,13 @@
             },
             "in": "query",
             "name": "format",
-            "description": "The response format. Available format options are: array, list and geojson. List is the default option when format is not present in the request.",
+            "description": "Available format options are: <b>array</b>, <b>list</b> and <b>geojson</b>. <b>List</b> is the default option when format is not present in the request.",
             "examples": {
-              "ex1": {
-                "value": "array"
+              "Empty": {
+                "value": null
+              },
+              "Response format as array": {
+                "value": "format=array"
               }
             }
           },
@@ -1273,7 +1292,7 @@
             }
           }
         },
-        "description": "Get data by table name of a year at different summary levels.\n\n## Examples:  \n### 1. Get specific columns data at state level:  \n\n<em>/data/2016?get=a101101_e1,a101101_e2&for=state:*&size=10&page=1</em>  \nThe <b>state</b> parameter is to select the states.  \nSpecify <b>state</b> parameter with two digits number: *<b>state:06,07</b>*\n\n\n\n### 2. Get all columns at State-County level:  \n\n\n<em>/data/2016?get=group(a101101)&for=county:*&in=state:06&size=5&page=1</em>  \nThe <b>county</b> parameter is to select the counties in selected state.  \nSpecify <b>county</b> parameter with three digits number: <em><b>county:005,006</b></em>\n\n### 3. Select specific columns at State-Place level:  \n\n<em>/data/2016?get=a101101_e1,a101101_e2&for=place:*&in=state:*&size=5&page=1</em>  \nThe <b>place</b> parameter is to select the places in selected state.  \nSpecify <b>place</b> parameter with five digits number: <em><b>county:00100,00124</b></em>\n\n### 4. Filter to get spatial data with bounding box: \n\n<em>/data/2016?format=array&for=county:*&get=A101110_e1,INTPTLON&A101110_e1=24015:25000  \n&bbox=-75.657349,40.279526,-80.897827,36.650793&size=5&page=1</em>  \nThe <b>bbox</b> parameter is to specify the value of the Bounding Box.  \nSpecify <b>bbox</b> parameter with Longitude and Latitude values: <em><b>bbox=-75.657349,40.279526,-80.897827,36.650793</b></em>"
+        "description": "Get data by table name of a year at different summary levels.\n\n# The Parameters and Symbol:  \n## Parameters:\n### &get\nSelect data. You can return by specific variables in a table or return all the variables in a table.\n\n### &for/&d-for, &in/&d-in\n&for restricts the data result by geography at various summary levels, while &in restricts to geographic areas smaller than state level. <br>\nUsing &d-for, &d-in parameters in FLOW DATA to define the destination geographies.\n\n### &bbox\nThe latitude and longitude value of Bounding Box. Bounding box can be used to filter geographies in the query. \n\n### &format\nThe response format.\n\n## Symbol:\n**The below Symbol defines how you filter the geographies**\n\n| Symbol        |  Explanation                                       |  Explanation                     |\n| --------------| -------------------------------------------------- |  -----------------------------   |\n| *             |  Select all geographies for current summary level  |  for=state:*\n| :             |  Divider between summary levels and geographies    |  for=state:06\n| ,             |  Separate with ‘or’ logic                          |  for=county:*&in=state:06,07,08        |\n| 20%(or space) |  Separate geography filters with ‘and’ logic       |  for=county subdivision:\\*&in=state:01 county:\\*&in=state:06 county:007 |\n\n# FLOW DATA & NON-FLOW DATA\nThe difference between FLOW and NON-FLOW DATA is that FLOW DATA has two geographies, i.e., origin and destination. We can use NON-FLOW DATA’s geography selection syntax for the origin selection of FLOW DATA. Use d-for and d-in as the parameter names for destination geography selection. <br>\nTry example <b>Ex-FLOWDATA</b> below: <br>\nThis example will return the number of household living in VA and work in Washington, DC and with income in range 50k - 75k."
       },
       "parameters": [
         {
@@ -1439,7 +1458,10 @@
         "schema": {
           "type": "string",
           "example": "application/json",
-          "enum": ["application/json", "application/xml"],
+          "enum": [
+            "application/json",
+            "application/xml"
+          ],
           "default": "application/json"
         },
         "description": "Setting to application/json is recommended."
