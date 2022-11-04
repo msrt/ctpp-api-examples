@@ -2,9 +2,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  optimization: {
-    minimize: false,
-  },
   entry: {
     app: './src/index.js',
     examples: './src/examples/index.js',
