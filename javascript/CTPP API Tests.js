@@ -1,4 +1,4 @@
-var server = 'https://ctpp.macrosysrt.com/api'
+var server = ''
 var apiKey = '';
 var options = {
   headers: { 'x-api-key': apiKey }
