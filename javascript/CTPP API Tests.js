@@ -1,4 +1,4 @@
-var server = ''
+var server = 'https://ctppdata.transportation.org/api'
 var apiKey = '';
 var options = {
   headers: { 'x-api-key': apiKey }

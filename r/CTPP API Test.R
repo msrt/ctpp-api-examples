@@ -2,7 +2,7 @@ library(httr)
 #key<-'1287jsfi$$$'
 key<-readline(prompt = 'Enter your API key: ')
 
-url<-"https://ctpp.macrosysrt.com/api/data/2016"
+url<-"https://ctppdata.transportation.org/api/data/2016"
 #query for tract data in state of california
 q<-list('get'='group(A101101)','in'='state:06','for'='tract:*','size'=1000,'page'=1)
 
