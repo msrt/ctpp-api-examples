@@ -9,7 +9,7 @@ key = os.environ['CTPP_API_KEY']
 header = {"x-api-key": key}
 
 # Set base URL for API
-server = "http://ctpp-dev.macrosysrt.com/api"
+server = "https://ctppdata.transportation.org/api"
 
 # List all available datasets
 endpoint = "/datasets"
